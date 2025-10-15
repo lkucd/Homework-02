@@ -1,5 +1,5 @@
 # Use a lightweight Node.js image
-FROM node:18-alpine
+FROM HTML
 
 # Copy the rest of the node
 COPY . .
