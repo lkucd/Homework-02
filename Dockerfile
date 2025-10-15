@@ -1,5 +1,5 @@
 # Use a lightweight Node.js image
-FROM HTML
+FROM html
 
 # Copy the rest of the node
 COPY . .
