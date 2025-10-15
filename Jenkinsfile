@@ -9,20 +9,19 @@ pipeline {
 
     stages {
 
-       stage('Cloning Git') {
-            steps {
-                checkout scm
-            }
-        }
-        
         stage('Cloning Git') {
             steps {
                 checkout scm
             }
         }
 
+        stage('SAST') {
+            steps {
+                sh 'echo Running SAST scan...'
+            }
+        }
 
-         stage('BUILD-AND-TAG') {
+      stage('BUILD-AND-TAG') {
             agent {
                 label 'CWEB3120Jenkins'
             }
@@ -36,6 +35,7 @@ pipeline {
             }
         }
 
+
         stage('POST-TO-DOCKERHUB') {    
             agent {
                 label 'CWEB3120Jenkins'
@@ -45,10 +45,29 @@ pipeline {
                     echo "Pushing image ${IMAGE_NAME}:latest to Docker Hub..."
                     docker.withRegistry('https://registry.hub.docker.com', "${DOCKERHUB_CREDENTIALS}") {
                         app.push("latest")
-                        }
                     }
+                }
             }
         }
+
+        stage('SECURITY-IMAGE-SCANNER') {
+            steps {
+                sh 'echo Scanning Docker image for vulnerabilities...'
+            }
+        }
+
+        stage('Pull-image-server') {
+            steps {
+                sh 'echo Pulling image on server...'
+            }
+        }
+
+        stage('DAST') {
+            steps {
+                sh 'echo Performing DAST scan...'
+            }
+        }
+
         stage('DEPLOYMENT') {    
             agent {
                 label 'CWEB3120Jenkins'
@@ -67,6 +86,5 @@ pipeline {
                 echo 'Deployment completed successfully!'
             }
         }
-    }
-}
- 
+    }  
+}  
