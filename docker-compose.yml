@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   gameapptestauto:
-    image: kellucd/snakegarands:latest
+    image: kellucd/rands:latest
     build: .
     container_name: randsauto
     ports:
