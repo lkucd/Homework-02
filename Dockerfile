@@ -1,9 +1,3 @@
-# Use a lightweight Node.js image
-FROM html
-
-# Copy the rest of the node
-COPY . .
-
-# Expose port 3000
-EXPOSE 3000
+FROM httpd:2.4
+COPY . /usr/local/apache2/htdocs/
 
